@@ -390,67 +390,109 @@ def consult_card(filename, eyebrow, title, descripcion, cta):
 
 # ─────────────────────────────────────────────────────────────────────
 # Template H — FAQ carrusel (Neue Haas Display)
+# Pregunta grande y bold arriba, respuesta abajo. Centrado, sin lineas.
 # ─────────────────────────────────────────────────────────────────────
 def faq_slide(filename, idx, total, question, answer_lines):
-    PAD = 90
     indicator = f"{idx:02d} / {total:02d}"
 
-    # Question wrap manual
-    q_size = 64
+    # Pregunta — centrada, bold, grande
+    q_size = 96
     q_svg = ""
+    q_block_h = len(question) * 110
+    q_start_y = 480 - q_block_h/2 + 80
     for i, ln in enumerate(question):
         q_svg += f'''
-        <text x="{PAD}" y="{420 + i*78}" font-family="{HAAS}" font-weight="500"
-              font-size="{q_size}" fill="{VERDE_GENSTONE}"
-              letter-spacing="-0.015em">{ln}</text>'''
+        <text x="{W/2}" y="{q_start_y + i*110}" font-family="{HAAS}" font-weight="500"
+              font-size="{q_size}" fill="{VERDE_GENSTONE}" text-anchor="middle"
+              letter-spacing="-0.02em">{ln}</text>'''
 
-    sep_y = 420 + len(question)*78 + 40
-
+    # Respuesta — centrada, light
     a_svg = ""
+    a_start_y = 880
     for i, ln in enumerate(answer_lines):
         a_svg += f'''
-        <text x="{PAD}" y="{sep_y + 80 + i*52}" font-family="{HAAS}" font-weight="300"
-              font-size="32" fill="{GRIS_MINERAL}"
+        <text x="{W/2}" y="{a_start_y + i*54}" font-family="{HAAS}" font-weight="300"
+              font-size="36" fill="{GRIS_MINERAL}" text-anchor="middle"
               letter-spacing="0">{ln}</text>'''
-
-    # Dots indicator
-    dots_svg = ""
-    dots_y = H - 180
-    dot_size = 8
-    gap = 16
-    total_w = total*dot_size + (total-1)*gap
-    start_x = W/2 - total_w/2
-    for i in range(total):
-        cx = start_x + i*(dot_size + gap) + dot_size/2
-        fill = VERDE_GENSTONE if i == idx-1 else GRIS_CLARO
-        dots_svg += f'<circle cx="{cx}" cy="{dots_y}" r="{dot_size/2}" fill="{fill}"/>'
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
   <rect width="{W}" height="{H}" fill="#FFFFFF"/>
 
-  <text x="{PAD}" y="160" font-family="{HAAS}" font-weight="500"
-        font-size="22" fill="{GRIS_MINERAL}"
-        letter-spacing="0.18em">PREGUNTAS FRECUENTES</text>
-  <text x="{W-PAD}" y="160" font-family="{HAAS}" font-weight="500"
-        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="end"
-        letter-spacing="0.18em">{indicator}</text>
-
-  <line x1="{PAD}" y1="200" x2="{W-PAD}" y2="200" stroke="{VERDE_GENSTONE}" stroke-width="1.5"/>
+  <text x="{W/2}" y="180" font-family="{HAAS}" font-weight="500"
+        font-size="24" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">PREGUNTAS FRECUENTES — {indicator}</text>
 
   {q_svg}
 
-  <line x1="{PAD}" y1="{sep_y}" x2="{W-PAD}" y2="{sep_y}" stroke="{VERDE_ENERGIA}" stroke-width="1.5"/>
-
   {a_svg}
+</svg>'''
+    write(filename, svg)
 
-  {dots_svg}
 
-  <g transform="translate({W/2-100},{H-90})">
-    <rect x="0" y="-28" width="200" height="52" rx="6" fill="{VERDE_ENERGIA}"/>
-    <text x="100" y="9" font-family="{HAAS}" font-weight="500" font-size="26"
-          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
-  </g>
+# ─────────────────────────────────────────────────────────────────────
+# Slide FAQ 03 — Ruido con comparación visual (centrado, sin lineas)
+# ─────────────────────────────────────────────────────────────────────
+def faq_ruido(filename):
+    idx, total = 3, 6
+
+    # Pregunta centrada arriba
+    q_lines = ["¿Hace mucho", "ruido?"]
+    q_svg = ""
+    for i, ln in enumerate(q_lines):
+        q_svg += f'''
+        <text x="{W/2}" y="{370 + i*110}" font-family="{HAAS}" font-weight="500"
+              font-size="96" fill="{VERDE_GENSTONE}" text-anchor="middle"
+              letter-spacing="-0.02em">{ln}</text>'''
+
+    # Comparación — eyebrow + 3 filas centradas
+    comp_y = 660
+    rows = [
+        ("65 dB(A)", "Una conversación normal.", True),
+        ("80 dB(A)", "Tráfico intenso.", False),
+        ("90 dB(A)", "Generadores comunes.", False),
+    ]
+    rows_svg = ""
+    row_h = 88
+    base = comp_y + 60
+    for i, (db, label, highlight) in enumerate(rows):
+        y = base + i*row_h
+        db_color = VERDE_ENERGIA if highlight else GRIS_CLARO
+        label_color = VERDE_GENSTONE if highlight else GRIS_MINERAL
+        label_weight = "500" if highlight else "300"
+        rows_svg += f'''
+        <text x="{W/2}" y="{y}" font-family="{HAAS}" font-weight="500"
+              font-size="46" fill="{db_color}" text-anchor="middle"
+              letter-spacing="-0.015em">{db}<tspan font-weight="300" font-size="32" fill="{label_color}" dx="20">= {label}</tspan></text>'''
+
+    # Implicación
+    impl_y = base + 3*row_h + 80
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="#FFFFFF"/>
+
+  <text x="{W/2}" y="180" font-family="{HAAS}" font-weight="500"
+        font-size="24" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">PREGUNTAS FRECUENTES — {idx:02d} / {total:02d}</text>
+
+  {q_svg}
+
+  <text x="{W/2}" y="{comp_y}" font-family="{HAAS}" font-weight="500"
+        font-size="26" fill="{GRIS_MINERAL}" text-anchor="middle"
+        letter-spacing="0.22em">COMPARACIÓN</text>
+
+  {rows_svg}
+
+  <text x="{W/2}" y="{impl_y}" font-family="{HAAS}" font-weight="500"
+        font-size="26" fill="{GRIS_MINERAL}" text-anchor="middle"
+        letter-spacing="0.22em">IMPLICACIÓN</text>
+  <text x="{W/2}" y="{impl_y+58}" font-family="{HAAS}" font-weight="500"
+        font-size="38" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.015em">Genstone funciona al lado tuyo</text>
+  <text x="{W/2}" y="{impl_y+108}" font-family="{HAAS}" font-weight="500"
+        font-size="38" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.015em">sin molestarte.</text>
 </svg>'''
     write(filename, svg)
 
@@ -575,14 +617,7 @@ def build_all():
          "",
          "Misma performance en cualquiera de los dos."])
 
-    faq_slide("faq_03_ruido", 3, 6,
-        ["¿Hace mucho", "ruido?"],
-        ["No. Genstone opera a ≤ 65 dB(A) — más bajo que",
-         "una conversación normal.",
-         "",
-         "El gabinete está diseñado con aislación acústica",
-         "para que funcione sin molestar a tu casa ni a",
-         "tus vecinos."])
+    faq_ruido("faq_03_ruido")
 
     faq_slide("faq_04_depto", 4, 6,
         ["¿Se puede instalar", "en un departamento?"],
