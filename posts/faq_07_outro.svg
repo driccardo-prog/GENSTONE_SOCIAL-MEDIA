@@ -8,20 +8,20 @@
   <text x="540.0" y="600" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
         font-size="160" fill="#EFEFEF" stroke="#EFEFEF" stroke-width="4"
         text-anchor="middle"
-        letter-spacing="-0.025em">Preguntas</text>
+        letter-spacing="-0.025em">¿Tenés</text>
   <text x="540.0" y="780" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
         font-size="160" fill="#68D38E" stroke="#68D38E" stroke-width="4"
         text-anchor="middle"
-        letter-spacing="-0.025em">Frecuentes</text>
+        letter-spacing="-0.025em">más dudas?</text>
 
   <text x="540.0" y="960" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
         font-size="32" fill="#EFEFEF" text-anchor="middle"
-        letter-spacing="0">Todo lo que necesitás saber</text>
+        letter-spacing="0">Asesorate en nuestra web o escribinos.</text>
   <text x="540.0" y="1004" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
         font-size="32" fill="#EFEFEF" text-anchor="middle"
-        letter-spacing="0">antes de elegir tu generador.</text>
+        letter-spacing="0">Te ayudamos a elegir el generador ideal.</text>
 
   <text x="540.0" y="1250" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
-        font-size="30" fill="#68D38E" text-anchor="middle"
-        letter-spacing="0">Deslizá →</text>
+        font-size="36" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0">genstone.com.ar →</text>
 </svg>

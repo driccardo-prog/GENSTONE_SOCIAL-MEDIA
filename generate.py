@@ -509,28 +509,58 @@ def faq_cover(filename):
         letter-spacing="0.18em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
 
   <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
-        font-size="120" fill="{BLANCO}" text-anchor="middle"
-        letter-spacing="-0.015em">Preguntas</text>
-  <text x="{W/2}" y="730" font-family="{HAAS}" font-weight="500"
-        font-size="120" fill="{VERDE_ENERGIA}" text-anchor="middle"
-        letter-spacing="-0.015em">frecuentes.</text>
+        font-size="160" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="4"
+        text-anchor="middle"
+        letter-spacing="-0.025em">Preguntas</text>
+  <text x="{W/2}" y="780" font-family="{HAAS}" font-weight="500"
+        font-size="160" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="4"
+        text-anchor="middle"
+        letter-spacing="-0.025em">Frecuentes</text>
 
-  <text x="{W/2}" y="900" font-family="{HAAS}" font-weight="300"
-        font-size="34" fill="{BLANCO}" text-anchor="middle"
+  <text x="{W/2}" y="960" font-family="{HAAS}" font-weight="300"
+        font-size="32" fill="{BLANCO}" text-anchor="middle"
         letter-spacing="0">Todo lo que necesitás saber</text>
-  <text x="{W/2}" y="944" font-family="{HAAS}" font-weight="300"
-        font-size="34" fill="{BLANCO}" text-anchor="middle"
+  <text x="{W/2}" y="1004" font-family="{HAAS}" font-weight="300"
+        font-size="32" fill="{BLANCO}" text-anchor="middle"
         letter-spacing="0">antes de elegir tu generador.</text>
 
-  <text x="{W/2}" y="1180" font-family="{HAAS}" font-weight="500"
+  <text x="{W/2}" y="1250" font-family="{HAAS}" font-weight="500"
         font-size="30" fill="{VERDE_ENERGIA}" text-anchor="middle"
         letter-spacing="0">Deslizá →</text>
+</svg>'''
+    write(filename, svg)
 
-  <g transform="translate({W/2-100},{H-90})">
-    <rect x="0" y="-28" width="200" height="52" rx="6" fill="{VERDE_ENERGIA}"/>
-    <text x="100" y="9" font-family="{HAAS}" font-weight="500" font-size="26"
-          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
-  </g>
+
+# ─────────────────────────────────────────────────────────────────────
+# Cierre del carrusel FAQ — mismo lenguaje que la cover
+# ─────────────────────────────────────────────────────────────────────
+def faq_outro(filename):
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  <text x="{W/2}" y="160" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.18em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
+
+  <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
+        font-size="160" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="4"
+        text-anchor="middle"
+        letter-spacing="-0.025em">¿Tenés</text>
+  <text x="{W/2}" y="780" font-family="{HAAS}" font-weight="500"
+        font-size="160" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="4"
+        text-anchor="middle"
+        letter-spacing="-0.025em">más dudas?</text>
+
+  <text x="{W/2}" y="960" font-family="{HAAS}" font-weight="300"
+        font-size="32" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="0">Asesorate en nuestra web o escribinos.</text>
+  <text x="{W/2}" y="1004" font-family="{HAAS}" font-weight="300"
+        font-size="32" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="0">Te ayudamos a elegir el generador ideal.</text>
+
+  <text x="{W/2}" y="1250" font-family="{HAAS}" font-weight="500"
+        font-size="36" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0">genstone.com.ar →</text>
 </svg>'''
     write(filename, svg)
 
@@ -645,6 +675,8 @@ def build_all():
          "El monitoreo 24/7 te avisa cuando toca cada",
          "servicio. Nuestra red técnica se encarga del",
          "resto, en todo el país."])
+
+    faq_outro("faq_07_outro")
 
     # ─── Cards estilo web (genstone.com.ar/productos) ───
     web_card("web_01_gs12", "genstone-02.jpg", "GS12",
