@@ -37,6 +37,7 @@ GRIS_CLARO     = "#B6B6B6"
 BLANCO         = "#EFEFEF"
 
 FONT = "Inter"   # stand-in para Helvetica Neue
+HAAS = "Neue Haas Grotesk Display Pro"   # tipografia real (Light + Medium)
 TRACKING = "-0.025em"   # tracking -25 ≈ -0.025em
 
 
@@ -387,6 +388,111 @@ def consult_card(filename, eyebrow, title, descripcion, cta):
     write(filename, svg)
 
 
+# ─────────────────────────────────────────────────────────────────────
+# Template H — FAQ carrusel (Neue Haas Display)
+# ─────────────────────────────────────────────────────────────────────
+def faq_slide(filename, idx, total, question, answer_lines):
+    PAD = 90
+    indicator = f"{idx:02d} / {total:02d}"
+
+    # Question wrap manual
+    q_size = 64
+    q_svg = ""
+    for i, ln in enumerate(question):
+        q_svg += f'''
+        <text x="{PAD}" y="{420 + i*78}" font-family="{HAAS}" font-weight="500"
+              font-size="{q_size}" fill="{VERDE_GENSTONE}"
+              letter-spacing="-0.015em">{ln}</text>'''
+
+    sep_y = 420 + len(question)*78 + 40
+
+    a_svg = ""
+    for i, ln in enumerate(answer_lines):
+        a_svg += f'''
+        <text x="{PAD}" y="{sep_y + 80 + i*52}" font-family="{HAAS}" font-weight="300"
+              font-size="32" fill="{GRIS_MINERAL}"
+              letter-spacing="0">{ln}</text>'''
+
+    # Dots indicator
+    dots_svg = ""
+    dots_y = H - 180
+    dot_size = 8
+    gap = 16
+    total_w = total*dot_size + (total-1)*gap
+    start_x = W/2 - total_w/2
+    for i in range(total):
+        cx = start_x + i*(dot_size + gap) + dot_size/2
+        fill = VERDE_GENSTONE if i == idx-1 else GRIS_CLARO
+        dots_svg += f'<circle cx="{cx}" cy="{dots_y}" r="{dot_size/2}" fill="{fill}"/>'
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="#FFFFFF"/>
+
+  <text x="{PAD}" y="160" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{GRIS_MINERAL}"
+        letter-spacing="0.18em">PREGUNTAS FRECUENTES</text>
+  <text x="{W-PAD}" y="160" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="end"
+        letter-spacing="0.18em">{indicator}</text>
+
+  <line x1="{PAD}" y1="200" x2="{W-PAD}" y2="200" stroke="{VERDE_GENSTONE}" stroke-width="1.5"/>
+
+  {q_svg}
+
+  <line x1="{PAD}" y1="{sep_y}" x2="{W-PAD}" y2="{sep_y}" stroke="{VERDE_ENERGIA}" stroke-width="1.5"/>
+
+  {a_svg}
+
+  {dots_svg}
+
+  <g transform="translate({W/2-100},{H-90})">
+    <rect x="0" y="-28" width="200" height="52" rx="6" fill="{VERDE_ENERGIA}"/>
+    <text x="100" y="9" font-family="{HAAS}" font-weight="500" font-size="26"
+          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
+  </g>
+</svg>'''
+    write(filename, svg)
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Cover de carrusel FAQ
+# ─────────────────────────────────────────────────────────────────────
+def faq_cover(filename):
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  <text x="{W/2}" y="160" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.18em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
+
+  <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
+        font-size="120" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="-0.015em">Preguntas</text>
+  <text x="{W/2}" y="730" font-family="{HAAS}" font-weight="500"
+        font-size="120" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="-0.015em">frecuentes.</text>
+
+  <text x="{W/2}" y="900" font-family="{HAAS}" font-weight="300"
+        font-size="34" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="0">Todo lo que necesitás saber</text>
+  <text x="{W/2}" y="944" font-family="{HAAS}" font-weight="300"
+        font-size="34" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="0">antes de elegir tu generador.</text>
+
+  <text x="{W/2}" y="1180" font-family="{HAAS}" font-weight="500"
+        font-size="30" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0">Deslizá →</text>
+
+  <g transform="translate({W/2-100},{H-90})">
+    <rect x="0" y="-28" width="200" height="52" rx="6" fill="{VERDE_ENERGIA}"/>
+    <text x="100" y="9" font-family="{HAAS}" font-weight="500" font-size="26"
+          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
+  </g>
+</svg>'''
+    write(filename, svg)
+
+
 def write(name, svg):
     (POSTS / f"{name}.svg").write_text(svg)
 
@@ -447,6 +553,63 @@ def build_all():
         ["Genstone no", "duerme.",  "Tu energía", "tampoco."],
         eyebrow_txt="MONITOREO 24/7",
         text_color=GRIS_MINERAL, dark_overlay=0.0, size=72)
+
+    # ─── Carrusel Preguntas Frecuentes ───
+    faq_cover("faq_00_cover")
+
+    faq_slide("faq_01_kw", 1, 6,
+        ["¿Cuántos kW necesito", "para mi casa?"],
+        ["Depende de tu consumo. Para departamentos y casas",
+         "chicas (heladera, luces, WiFi, TV + un aire) alcanza",
+         "con GS12. Para 3-4 ambientes con varios aires y",
+         "lavarropas, GS15. Para una casa grande funcionando",
+         "sin restricciones, GS17 o superior.",
+         "",
+         "Consultanos y te ayudamos a elegir."])
+
+    faq_slide("faq_02_combustible", 2, 6,
+        ["¿Qué combustible", "usa?"],
+        ["Funciona con GLP (gas envasado) o Gas Natural",
+         "de red. Elegís el que ya tenés disponible en tu",
+         "casa, sin obras adicionales.",
+         "",
+         "Misma performance en cualquiera de los dos."])
+
+    faq_slide("faq_03_ruido", 3, 6,
+        ["¿Hace mucho", "ruido?"],
+        ["No. Genstone opera a ≤ 65 dB(A) — más bajo que",
+         "una conversación normal.",
+         "",
+         "El gabinete está diseñado con aislación acústica",
+         "para que funcione sin molestar a tu casa ni a",
+         "tus vecinos."])
+
+    faq_slide("faq_04_depto", 4, 6,
+        ["¿Se puede instalar", "en un departamento?"],
+        ["Sí. Genstone GS12 está pensado para departamentos",
+         "y espacios reducidos.",
+         "",
+         "Requiere ventilación adecuada, conexión a gas y",
+         "una instalación eléctrica autorizada por un",
+         "matriculado. Nuestro equipo te asesora."])
+
+    faq_slide("faq_05_ats", 5, 6,
+        ["¿Cómo funciona la", "transferencia automática?"],
+        ["El sistema ATS monitorea la red 24/7. Cuando",
+         "detecta un corte, arranca el generador en",
+         "milisegundos y transfiere la carga automáticamente.",
+         "",
+         "Cuando vuelve la energía, transfiere de vuelta y",
+         "apaga el motor. Sin que tengas que tocar nada."])
+
+    faq_slide("faq_06_mantenimiento", 6, 6,
+        ["¿Qué mantenimiento", "necesita?"],
+        ["Mantenimiento programado: cambio de aceite, filtro",
+         "de aire y bujías según horas de uso.",
+         "",
+         "El monitoreo 24/7 te avisa cuando toca cada",
+         "servicio. Nuestra red técnica se encarga del",
+         "resto, en todo el país."])
 
     # ─── Cards estilo web (genstone.com.ar/productos) ───
     web_card("web_01_gs12", "genstone-02.jpg", "GS12",
