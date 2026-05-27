@@ -244,6 +244,56 @@ def product_card(filename, modelo, headline, specs, photo=None):
     write(filename, svg)
 
 
+# ─────────────────────────────────────────────────────────────────────
+# Template E — Foto producto + ficha técnica resumida
+# ─────────────────────────────────────────────────────────────────────
+def product_sheet(filename, photo, modelo, funcion, specs):
+    """ specs: list of (label, value) — 4 items recomendado. """
+    img = FOTOS / photo
+    b64 = base64.b64encode(img.read_bytes()).decode()
+    img_uri = f"data:image/jpeg;base64,{b64}"
+
+    # Bloque info: parte inferior verde Genstone
+    INFO_TOP = 760
+    # Distribución de 4 specs en 2 columnas
+    col_x = [80, W/2 + 20]
+    spec_svg = ""
+    for i, (k, v) in enumerate(specs):
+        col = i % 2
+        row = i // 2
+        x = col_x[col]
+        y = 1010 + row*150
+        spec_svg += f'''
+        <text x="{x}" y="{y}" font-family="{FONT}" font-weight="400" font-size="22"
+              fill="{VERDE_ENERGIA}" letter-spacing="0.18em">{k.upper()}</text>
+        <text x="{x}" y="{y+50}" font-family="{FONT}" font-weight="700" font-size="38"
+              fill="{BLANCO}" letter-spacing="{TRACKING}">{v}</text>'''
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{BLANCO}"/>
+  <image href="{img_uri}" x="0" y="0" width="{W}" height="{INFO_TOP}" preserveAspectRatio="xMidYMid slice"/>
+  <text x="60" y="80" font-family="{FONT}" font-weight="500" font-size="22"
+        fill="{GRIS_MINERAL}" letter-spacing="0.18em">&lt; FICHA TÉCNICA &gt;</text>
+
+  <rect x="0" y="{INFO_TOP}" width="{W}" height="{H-INFO_TOP}" fill="{VERDE_GENSTONE}"/>
+  <text x="80" y="{INFO_TOP+150}" font-family="{FONT}" font-weight="900" font-size="180"
+        fill="{VERDE_ENERGIA}" letter-spacing="{TRACKING}">{modelo}</text>
+  <text x="80" y="{INFO_TOP+200}" font-family="{FONT}" font-weight="400" font-size="28"
+        fill="{BLANCO}" letter-spacing="{TRACKING}">{funcion}</text>
+  <line x1="80" y1="{INFO_TOP+225}" x2="{W-80}" y2="{INFO_TOP+225}" stroke="{VERDE_ENERGIA}" stroke-opacity="0.4" stroke-width="1"/>
+
+  {spec_svg}
+
+  <g transform="translate({W-260},{H-90})">
+    <rect x="0" y="-32" width="200" height="56" rx="6" fill="{VERDE_ENERGIA}"/>
+    <text x="100" y="9" font-family="{FONT}" font-weight="900" font-size="28"
+          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
+  </g>
+</svg>'''
+    write(filename, svg)
+
+
 def write(name, svg):
     (POSTS / f"{name}.svg").write_text(svg)
 
@@ -304,6 +354,30 @@ def build_all():
         ["Genstone no", "duerme.",  "Tu energía", "tampoco."],
         eyebrow_txt="MONITOREO 24/7",
         text_color=GRIS_MINERAL, dark_overlay=0.0, size=72)
+
+    # 11 — Ficha resumida GS12 (foto + info)
+    product_sheet("11_ficha_gs12", "genstone-01.jpg", "GS12",
+        "Respaldo automático esencial.",
+        [("POTENCIA", "11 kW GLP · 10 kW GN"),
+         ("NIVEL SONORO", "≤ 65 dB(A)"),
+         ("MOTOR", "GB750 · 750 cc"),
+         ("PESO NETO", "289 kg")])
+
+    # 12 — Ficha resumida GS15
+    product_sheet("12_ficha_gs15", "genstone-02.jpg", "GS15",
+        "Respaldo automático de mayor capacidad.",
+        [("POTENCIA", "15 kW GLP · 14 kW GN"),
+         ("NIVEL SONORO", "≤ 65 dB(A)"),
+         ("MOTOR", "GB1000 · 999 cc"),
+         ("PESO NETO", "305 kg")])
+
+    # 13 — Ficha resumida GS17
+    product_sheet("13_ficha_gs17", "genstone-03.jpg", "GS17",
+        "Respaldo automático de potencia avanzada.",
+        [("POTENCIA", "17 kW GLP · 15 kW GN"),
+         ("NIVEL SONORO", "≤ 65 dB(A)"),
+         ("MOTOR", "GB1000 · 999 cc"),
+         ("PESO NETO", "306 kg")])
 
     # 10 — GS12 producto
     product_card("10_gs12", "GS12", "Respaldo esencial.",
