@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#FFFFFF"/>
+  <text x="540.0" y="180" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="24" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0.22em">RESPALDO QUE NO FALLA — 03 / 06</text>
+  
+    <text x="540.0" y="340" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+          font-size="68" fill="#173B2E" text-anchor="middle"
+          letter-spacing="-0.02em">Cómo lo hace.</text>
+  
+        <text x="540.0" y="540" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="24" fill="#68D38E" text-anchor="middle"
+              letter-spacing="0.22em">AUTOMÁTICO</text>
+        <text x="540.0" y="598" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="46" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.02em">Arranca solo, sin que toques nada.</text>
+        <text x="540.0" y="690" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="24" fill="#68D38E" text-anchor="middle"
+              letter-spacing="0.22em">EFICIENTE</text>
+        <text x="540.0" y="748" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="46" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.02em">Consume inteligentemente.</text>
+        <text x="540.0" y="840" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="24" fill="#68D38E" text-anchor="middle"
+              letter-spacing="0.22em">ESTABLE</text>
+        <text x="540.0" y="898" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="46" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.02em">Energía limpia y consistente.</text>
+</svg>

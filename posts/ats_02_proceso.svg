@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#FFFFFF"/>
+  <text x="540.0" y="180" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="24" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0.22em">TRANSFERENCIA AUTOMÁTICA — 02 / 06</text>
+  
+    <text x="540.0" y="340" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+          font-size="68" fill="#173B2E" text-anchor="middle"
+          letter-spacing="-0.02em">Así funciona.</text>
+  
+        <text x="180.0" y="480" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="60" fill="#68D38E" text-anchor="end"
+              letter-spacing="-0.02em">1</text>
+        <text x="220.0" y="480" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#282B2A" text-anchor="start"
+              letter-spacing="0">Monitorea constantemente la red eléctrica.</text>
+        <text x="180.0" y="590" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="60" fill="#68D38E" text-anchor="end"
+              letter-spacing="-0.02em">2</text>
+        <text x="220.0" y="590" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#282B2A" text-anchor="start"
+              letter-spacing="0">Detecta caída de tensión en milisegundos.</text>
+        <text x="180.0" y="700" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="60" fill="#68D38E" text-anchor="end"
+              letter-spacing="-0.02em">3</text>
+        <text x="220.0" y="700" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#282B2A" text-anchor="start"
+              letter-spacing="0">Ordena al motor arrancar.</text>
+        <text x="180.0" y="810" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="60" fill="#68D38E" text-anchor="end"
+              letter-spacing="-0.02em">4</text>
+        <text x="220.0" y="810" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#282B2A" text-anchor="start"
+              letter-spacing="0">Cambia a alimentación Genstone.</text>
+        <text x="180.0" y="920" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="60" fill="#68D38E" text-anchor="end"
+              letter-spacing="-0.02em">5</text>
+        <text x="220.0" y="920" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#282B2A" text-anchor="start"
+              letter-spacing="0">Tu casa nunca se queda sin energía.</text>
+</svg>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#173B2E"/>
+  <text x="540.0" y="160" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="22" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0.18em">&lt; RESPALDO QUE NO FALLA &gt;</text>
+
+  <text x="540.0" y="600" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="160" fill="#EFEFEF" stroke="#EFEFEF" stroke-width="4"
+        text-anchor="middle" letter-spacing="-0.025em">Respaldo</text>
+  <text x="540.0" y="780" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="160" fill="#68D38E" stroke="#68D38E" stroke-width="4"
+        text-anchor="middle" letter-spacing="-0.025em">estable.</text>
+
+  
+        <text x="540.0" y="960" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">Respaldo eficiente que mantiene</text>
+        <text x="540.0" y="1004" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="32" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">todo en marcha.</text>
+
+  <text x="540.0" y="1250" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="30" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0">Deslizá →</text>
+</svg>
