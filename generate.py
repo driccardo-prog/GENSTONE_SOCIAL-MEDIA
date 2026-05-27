@@ -1036,6 +1036,39 @@ def stat_hero(filename, eyebrow, stat, sub_lines, indicator=None):
     write(filename, svg)
 
 
+def manifesto_slide(filename, eyebrow, title_white, title_green, body_lines, footer=None):
+    """Slide manifiesto: frase heroica arriba + parrafo abajo, centrado."""
+    body_svg = ""
+    n = len(body_lines)
+    body_start = 1330 - 90 - 60 - n*46
+    for i, ln in enumerate(body_lines):
+        body_svg += f'''
+        <text x="{W/2}" y="{body_start + i*46}" font-family="{HAAS}" font-weight="300"
+              font-size="30" fill="{BLANCO}" text-anchor="middle"
+              letter-spacing="0">{ln}</text>'''
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  {_corners(VERDE_ENERGIA)}
+  {_eyebrow(eyebrow, VERDE_ENERGIA, y=140, with_brackets=True)}
+
+  <text x="{W/2}" y="470" font-family="{HAAS}" font-weight="500"
+        font-size="160" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_white}</text>
+  <text x="{W/2}" y="640" font-family="{HAAS}" font-weight="500"
+        font-size="160" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_green}</text>
+
+  {body_svg}
+
+  <text x="{W/2}" y="{H-70}" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">{(footer or '').upper()}</text>
+</svg>'''
+    write(filename, svg)
+
+
 def write(name, svg):
     (POSTS / f"{name}.svg").write_text(svg)
 
@@ -1148,6 +1181,19 @@ def build_all():
          "resto, en todo el país."])
 
     faq_outro("faq_07_outro")
+
+    # ─── Quiénes somos (single slide) ───
+    manifesto_slide("quienes_somos",
+        "Quiénes somos",
+        "Lo esencial,", "bien hecho.",
+        ["Empresa argentina de respaldo energético",
+         "para el hogar. Generadores premium-accesibles",
+         "a gas natural y GLP.",
+         "",
+         "Depósito propio en Parque Industrial DT4,",
+         "logística y soporte técnico en todo el país.",
+         "Garantía de fábrica de 1 año + posventa."],
+        footer="genstone.com.ar")
 
     # ─── Carrusel ATS: Transferencia automática (v2) ───
     EB1 = "TRANSFERENCIA AUTOMÁTICA"

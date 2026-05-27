@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#173B2E"/>
+  
+    <g stroke="#68D38E" stroke-width="2" fill="none">
+      <polyline points="60,92 60,60 92,60"/>
+      <polyline points="988,60 1020,60 1020,92"/>
+      <polyline points="60,1258 60,1290 92,1290"/>
+      <polyline points="988,1290 1020,1290 1020,1258"/>
+    </g>
+  
+    <text x="540.0" y="140" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+          font-size="22" fill="#68D38E" text-anchor="middle"
+          letter-spacing="0.22em">&lt; QUIÉNES SOMOS &gt;</text>
+
+  <text x="540.0" y="470" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="160" fill="#EFEFEF" stroke="#EFEFEF" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">Lo esencial,</text>
+  <text x="540.0" y="640" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="160" fill="#68D38E" stroke="#68D38E" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">bien hecho.</text>
+
+  
+        <text x="540.0" y="858" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">Empresa argentina de respaldo energético</text>
+        <text x="540.0" y="904" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">para el hogar. Generadores premium-accesibles</text>
+        <text x="540.0" y="950" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">a gas natural y GLP.</text>
+        <text x="540.0" y="996" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0"></text>
+        <text x="540.0" y="1042" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">Depósito propio en Parque Industrial DT4,</text>
+        <text x="540.0" y="1088" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">logística y soporte técnico en todo el país.</text>
+        <text x="540.0" y="1134" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
+              font-size="30" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="0">Garantía de fábrica de 1 año + posventa.</text>
+
+  <text x="540.0" y="1280" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+        font-size="22" fill="#68D38E" text-anchor="middle"
+        letter-spacing="0.22em">GENSTONE.COM.AR</text>
+</svg>
