@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#173B2E"/>
+  
+    <text x="540.0" y="110" font-family="Inter" font-weight="500"
+          font-size="22" fill="#EFEFEF" text-anchor="middle"
+          letter-spacing="0.18em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
+    
+  <text x="540.0" y="743.4" font-family="Inter" font-weight="900"
+        font-size="380" fill="#68D38E" text-anchor="middle"
+        letter-spacing="-0.025em">+20</text>
+  
+    <g fill="none" stroke="#68D38E" stroke-width="2">
+      <circle cx="100" cy="675.0" r="22"/>
+      <polyline points="106,668.0 96,675.0 106,682.0"/>
+      <circle cx="980" cy="675.0" r="22"/>
+      <polyline points="974,668.0 984,675.0 974,682.0"/>
+    </g>
+    
+  
+        <text x="540.0" y="950" font-family="Inter" font-weight="300"
+              font-size="34" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="-0.025em">años de vida</text>
+        <text x="540.0" y="994" font-family="Inter" font-weight="300"
+              font-size="34" fill="#EFEFEF" text-anchor="middle"
+              letter-spacing="-0.025em">útil del sistema.</text>
+  
+    <g>
+      <rect x="420.0" y="1208.0" width="240.0" height="64.0" rx="6" ry="6" fill="#68D38E"/>
+      <text x="540.0" y="1251.52" font-family="Inter" font-weight="900"
+            font-size="32.0" fill="#173B2E" text-anchor="middle"
+            letter-spacing="-0.02em">GENSTONE</text>
+    </g>
+    
+</svg>

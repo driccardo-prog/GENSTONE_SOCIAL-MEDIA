@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#EFEFEF"/>
+  
+        <text x="540.0" y="458.0" font-family="Inter" font-weight="800"
+              font-size="180" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.025em">Hola.</text>
+        <text x="540.0" y="638.0" font-family="Inter" font-weight="800"
+              font-size="180" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.025em">Somos</text>
+        <text x="540.0" y="818.0" font-family="Inter" font-weight="800"
+              font-size="180" fill="#68D38E" text-anchor="middle"
+              letter-spacing="-0.025em">Genstone.</text>
+  
+        <text x="540.0" y="1058.0" font-family="Inter" font-weight="400"
+              font-size="32" fill="#282B2A" text-anchor="middle"
+              letter-spacing="-0.025em">Generadores de respaldo automático</text>
+        <text x="540.0" y="1102.0" font-family="Inter" font-weight="400"
+              font-size="32" fill="#282B2A" text-anchor="middle"
+              letter-spacing="-0.025em">premium accesibles.</text>
+  
+    <text x="540.0" y="1250" font-family="Inter" font-weight="500"
+          font-size="22" fill="#282B2A" text-anchor="middle"
+          letter-spacing="0.18em">&lt; LO QUE NECESITÁS SIGUE EN MARCHA &gt;</text>
+    
+</svg>

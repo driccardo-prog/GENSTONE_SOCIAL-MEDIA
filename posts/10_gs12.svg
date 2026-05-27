@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#173B2E"/>
+  
+    <text x="540.0" y="110" font-family="Inter" font-weight="500"
+          font-size="22" fill="#EFEFEF" text-anchor="middle"
+          letter-spacing="0.18em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
+    
+  <text x="80" y="320" font-family="Inter" font-weight="900" font-size="240"
+        fill="#68D38E" letter-spacing="-0.025em">GS12</text>
+  <text x="80" y="430" font-family="Inter" font-weight="400" font-size="44"
+        fill="#EFEFEF" letter-spacing="-0.025em">Respaldo esencial.</text>
+  <line x1="80" y1="500" x2="1000" y2="500" stroke="#68D38E" stroke-width="2"/>
+  <text x="80" y="570" font-family="Inter" font-weight="300" font-size="26"
+        fill="#B6B6B6" letter-spacing="0.18em">ESPECIFICACIONES</text>
+  
+        <text x="80" y="660" font-family="Inter" font-weight="400" font-size="28"
+              fill="#B6B6B6" letter-spacing="-0.025em">POTENCIA GLP</text>
+        <text x="1000" y="660" font-family="Inter" font-weight="700" font-size="32"
+              fill="#EFEFEF" text-anchor="end" letter-spacing="-0.025em">12 kW</text>
+        <line x1="80" y1="678" x2="1000" y2="678" stroke="#68D38E" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="80" y="750" font-family="Inter" font-weight="400" font-size="28"
+              fill="#B6B6B6" letter-spacing="-0.025em">POTENCIA GAS NATURAL</text>
+        <text x="1000" y="750" font-family="Inter" font-weight="700" font-size="32"
+              fill="#EFEFEF" text-anchor="end" letter-spacing="-0.025em">10 kW</text>
+        <line x1="80" y1="768" x2="1000" y2="768" stroke="#68D38E" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="80" y="840" font-family="Inter" font-weight="400" font-size="28"
+              fill="#B6B6B6" letter-spacing="-0.025em">NIVEL SONORO</text>
+        <text x="1000" y="840" font-family="Inter" font-weight="700" font-size="32"
+              fill="#EFEFEF" text-anchor="end" letter-spacing="-0.025em">≤65 dB(A)</text>
+        <line x1="80" y1="858" x2="1000" y2="858" stroke="#68D38E" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="80" y="930" font-family="Inter" font-weight="400" font-size="28"
+              fill="#B6B6B6" letter-spacing="-0.025em">MOTOR</text>
+        <text x="1000" y="930" font-family="Inter" font-weight="700" font-size="32"
+              fill="#EFEFEF" text-anchor="end" letter-spacing="-0.025em">GB750 750cc</text>
+        <line x1="80" y1="948" x2="1000" y2="948" stroke="#68D38E" stroke-opacity="0.25" stroke-width="1"/>
+        <text x="80" y="1020" font-family="Inter" font-weight="400" font-size="28"
+              fill="#B6B6B6" letter-spacing="-0.025em">PESO</text>
+        <text x="1000" y="1020" font-family="Inter" font-weight="700" font-size="32"
+              fill="#EFEFEF" text-anchor="end" letter-spacing="-0.025em">289 kg</text>
+        <line x1="80" y1="1038" x2="1000" y2="1038" stroke="#68D38E" stroke-opacity="0.25" stroke-width="1"/>
+  
+    <g>
+      <rect x="420.0" y="1208.0" width="240.0" height="64.0" rx="6" ry="6" fill="#68D38E"/>
+      <text x="540.0" y="1251.52" font-family="Inter" font-weight="900"
+            font-size="32.0" fill="#173B2E" text-anchor="middle"
+            letter-spacing="-0.02em">GENSTONE</text>
+    </g>
+    
+</svg>

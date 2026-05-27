@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#EFEFEF"/>
+  
+        <text x="540.0" y="464.5" font-family="Inter" font-weight="800"
+              font-size="170" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.025em">Mantené</text>
+        <text x="540.0" y="634.5" font-family="Inter" font-weight="800"
+              font-size="170" fill="#68D38E" text-anchor="middle"
+              letter-spacing="-0.025em">activa tu</text>
+        <text x="540.0" y="804.5" font-family="Inter" font-weight="800"
+              font-size="170" fill="#173B2E" text-anchor="middle"
+              letter-spacing="-0.025em">rutina.</text>
+  
+        <text x="540.0" y="1034.5" font-family="Inter" font-weight="400"
+              font-size="32" fill="#282B2A" text-anchor="middle"
+              letter-spacing="-0.025em">Protegemos tu ritmo,</text>
+        <text x="540.0" y="1078.5" font-family="Inter" font-weight="400"
+              font-size="32" fill="#282B2A" text-anchor="middle"
+              letter-spacing="-0.025em">protegemos tus tiempos,</text>
+        <text x="540.0" y="1122.5" font-family="Inter" font-weight="400"
+              font-size="32" fill="#282B2A" text-anchor="middle"
+              letter-spacing="-0.025em">protegemos tu comodidad.</text>
+  
+    <text x="540.0" y="1250" font-family="Inter" font-weight="500"
+          font-size="22" fill="#282B2A" text-anchor="middle"
+          letter-spacing="0.18em">&lt; LO QUE NECESITÁS SIGUE EN MARCHA &gt;</text>
+    
+</svg>
