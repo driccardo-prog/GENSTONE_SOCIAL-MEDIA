@@ -768,6 +768,274 @@ def big_stat_slide(filename, eyebrow, stat, sub_lines, idx=None, total=None):
     write(filename, svg)
 
 
+# ─────────────────────────────────────────────────────────────────────
+# v2 — Layouts con mas impacto visual
+# ─────────────────────────────────────────────────────────────────────
+
+def _corners(color, inset=60, size=32, thick=2):
+    """Marcas de registro en las 4 esquinas."""
+    return f'''
+    <g stroke="{color}" stroke-width="{thick}" fill="none">
+      <polyline points="{inset},{inset+size} {inset},{inset} {inset+size},{inset}"/>
+      <polyline points="{W-inset-size},{inset} {W-inset},{inset} {W-inset},{inset+size}"/>
+      <polyline points="{inset},{H-inset-size} {inset},{H-inset} {inset+size},{H-inset}"/>
+      <polyline points="{W-inset-size},{H-inset} {W-inset},{H-inset} {W-inset},{H-inset-size}"/>
+    </g>'''
+
+
+def _eyebrow(text, color, y=100, with_brackets=False):
+    body = text.upper()
+    if with_brackets:
+        body = f"&lt; {body} &gt;"
+    return f'''
+    <text x="{W/2}" y="{y}" font-family="{HAAS}" font-weight="500"
+          font-size="22" fill="{color}" text-anchor="middle"
+          letter-spacing="0.22em">{body}</text>'''
+
+
+def _footer(text, color, y=None):
+    if y is None: y = H - 80
+    return f'''
+    <text x="{W/2}" y="{y}" font-family="{HAAS}" font-weight="500"
+          font-size="22" fill="{color}" text-anchor="middle"
+          letter-spacing="0.22em">{text.upper()}</text>'''
+
+
+# Cover v2 — corners + tipo gigante
+def cover_v2(filename, eyebrow, title_white, title_green, sub_lines, cta="Deslizá →"):
+    sub_svg = ""
+    for i, ln in enumerate(sub_lines):
+        sub_svg += f'''
+        <text x="{W/2}" y="{1010 + i*44}" font-family="{HAAS}" font-weight="300"
+              font-size="32" fill="{BLANCO}" text-anchor="middle"
+              letter-spacing="0">{ln}</text>'''
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  {_corners(VERDE_ENERGIA)}
+  {_eyebrow(eyebrow, VERDE_ENERGIA, y=140, with_brackets=True)}
+
+  <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
+        font-size="180" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_white}</text>
+  <text x="{W/2}" y="800" font-family="{HAAS}" font-weight="500"
+        font-size="180" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_green}</text>
+
+  {sub_svg}
+
+  <text x="{W/2}" y="1280" font-family="{HAAS}" font-weight="500"
+        font-size="32" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0">{cta}</text>
+</svg>'''
+    write(filename, svg)
+
+
+def outro_v2(filename, eyebrow, title_white, title_green, sub_lines, cta):
+    sub_svg = ""
+    for i, ln in enumerate(sub_lines):
+        sub_svg += f'''
+        <text x="{W/2}" y="{1010 + i*44}" font-family="{HAAS}" font-weight="300"
+              font-size="32" fill="{BLANCO}" text-anchor="middle"
+              letter-spacing="0">{ln}</text>'''
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  {_corners(VERDE_ENERGIA)}
+  {_eyebrow(eyebrow, VERDE_ENERGIA, y=140, with_brackets=True)}
+
+  <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
+        font-size="180" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_white}</text>
+  <text x="{W/2}" y="800" font-family="{HAAS}" font-weight="500"
+        font-size="180" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="5"
+        text-anchor="middle" letter-spacing="-0.03em">{title_green}</text>
+
+  {sub_svg}
+
+  <text x="{W/2}" y="1280" font-family="{HAAS}" font-weight="500"
+        font-size="36" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0">{cta}</text>
+</svg>'''
+    write(filename, svg)
+
+
+def hero_statement(filename, eyebrow, label, lines, accent_idx=None, bg="dark",
+                   indicator=None):
+    """Slide-manifiesto: tipografia gigante centrada vertical/horizontalmente.
+       bg='dark' verde Genstone | bg='energy' verde energia | bg='light' blanco."""
+    if bg == "dark":
+        bg_col = VERDE_GENSTONE
+        default_col = BLANCO
+        accent_col = VERDE_ENERGIA
+        eb_col = VERDE_ENERGIA
+    elif bg == "energy":
+        bg_col = VERDE_ENERGIA
+        default_col = VERDE_GENSTONE
+        accent_col = BLANCO
+        eb_col = VERDE_GENSTONE
+    else:
+        bg_col = BLANCO
+        default_col = VERDE_GENSTONE
+        accent_col = VERDE_ENERGIA
+        eb_col = VERDE_ENERGIA
+
+    n = len(lines)
+    size = 160 if n <= 2 else (130 if n == 3 else 110)
+    line_h = size * 1.0
+    block_h = n * line_h
+    start_y = H/2 - block_h/2 + size*0.85
+
+    txt_svg = ""
+    for i, ln in enumerate(lines):
+        col = accent_col if i == accent_idx else default_col
+        y = start_y + i*line_h
+        txt_svg += f'''
+        <text x="{W/2}" y="{y}" font-family="{HAAS}" font-weight="500"
+              font-size="{size}" fill="{col}" stroke="{col}" stroke-width="4"
+              text-anchor="middle" letter-spacing="-0.03em">{ln}</text>'''
+
+    eb_text = label.upper()
+    if indicator:
+        eb_text = f"{eb_text}  ·  {indicator}"
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{bg_col}"/>
+  {_corners(eb_col)}
+  {_eyebrow(eyebrow, eb_col, y=140)}
+  {txt_svg}
+  {_footer(label, eb_col, y=H-100)}
+</svg>'''
+    write(filename, svg)
+
+
+def numbered_v2(filename, eyebrow, headline, steps, indicator=None, bg="dark"):
+    """Lista numerada: numeros gigantes en verde energia + steps a la derecha."""
+    if bg == "dark":
+        bg_col = VERDE_GENSTONE
+        text_col = BLANCO
+        accent_col = VERDE_ENERGIA
+    else:
+        bg_col = BLANCO
+        text_col = VERDE_GENSTONE
+        accent_col = VERDE_ENERGIA
+
+    h_svg = f'''
+    <text x="{W/2}" y="290" font-family="{HAAS}" font-weight="500"
+          font-size="90" fill="{text_col}" stroke="{text_col}" stroke-width="3"
+          text-anchor="middle" letter-spacing="-0.025em">{headline}</text>'''
+
+    n = len(steps)
+    base_y = 460
+    row_h = 130 if n <= 5 else 110
+    rows = ""
+    for i, txt in enumerate(steps):
+        y = base_y + i*row_h
+        rows += f'''
+        <text x="{W/2 - 50}" y="{y+30}" font-family="{HAAS}" font-weight="500"
+              font-size="120" fill="{accent_col}" stroke="{accent_col}" stroke-width="3"
+              text-anchor="end" letter-spacing="-0.03em">{i+1}</text>
+        <text x="{W/2 + 20}" y="{y}" font-family="{HAAS}" font-weight="300"
+              font-size="32" fill="{text_col}" text-anchor="start"
+              letter-spacing="0">{txt}</text>'''
+
+    eb = eyebrow.upper()
+    if indicator:
+        eb = f"{eb}  ·  {indicator}"
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{bg_col}"/>
+  {_corners(accent_col)}
+  {_eyebrow(eb, accent_col, y=140)}
+  {h_svg}
+  {rows}
+</svg>'''
+    write(filename, svg)
+
+
+def stripes_slide(filename, eyebrow, headline, items, indicator=None):
+    """Bloques horizontales alternando colores: cada item es una stripe.
+       items: [(label, value), ...] (3 items)."""
+    h_svg = f'''
+    <text x="{W/2}" y="280" font-family="{HAAS}" font-weight="500"
+          font-size="90" fill="{VERDE_GENSTONE}" stroke="{VERDE_GENSTONE}" stroke-width="3"
+          text-anchor="middle" letter-spacing="-0.025em">{headline}</text>'''
+
+    n = len(items)
+    # 3 stripes ocupan el resto del canvas
+    stripes_top = 380
+    stripes_bot = H - 120
+    stripe_h = (stripes_bot - stripes_top) / n
+    stripes_svg = ""
+    bgs = [VERDE_GENSTONE, VERDE_ENERGIA, VERDE_GENSTONE]
+    text_cols = [BLANCO, VERDE_GENSTONE, BLANCO]
+    accent_cols = [VERDE_ENERGIA, VERDE_GENSTONE, VERDE_ENERGIA]
+    for i, (label, value) in enumerate(items):
+        y_top = stripes_top + i*stripe_h
+        cy = y_top + stripe_h/2
+        stripes_svg += f'''
+        <rect x="60" y="{y_top}" width="{W-120}" height="{stripe_h}" fill="{bgs[i]}" rx="12"/>
+        <text x="{W/2}" y="{cy - 18}" font-family="{HAAS}" font-weight="500"
+              font-size="22" fill="{accent_cols[i]}" text-anchor="middle"
+              letter-spacing="0.22em">{label.upper()}</text>
+        <text x="{W/2}" y="{cy + 38}" font-family="{HAAS}" font-weight="500"
+              font-size="50" fill="{text_cols[i]}"
+              stroke="{text_cols[i]}" stroke-width="2"
+              text-anchor="middle" letter-spacing="-0.02em">{value}</text>'''
+
+    eb = eyebrow.upper()
+    if indicator:
+        eb = f"{eb}  ·  {indicator}"
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="#FFFFFF"/>
+  {_eyebrow(eb, VERDE_ENERGIA, y=140)}
+  {h_svg}
+  {stripes_svg}
+</svg>'''
+    write(filename, svg)
+
+
+def stat_hero(filename, eyebrow, stat, sub_lines, indicator=None):
+    """Stat gigante full-bleed con cross marks decorativos."""
+    sub_svg = ""
+    for i, ln in enumerate(sub_lines):
+        sub_svg += f'''
+        <text x="{W/2}" y="{1080 + i*48}" font-family="{HAAS}" font-weight="300"
+              font-size="36" fill="{BLANCO}" text-anchor="middle"
+              letter-spacing="0">{ln}</text>'''
+
+    eb = eyebrow.upper()
+    if indicator:
+        eb = f"{eb}  ·  {indicator}"
+
+    # crosses decorativos
+    def cross(cx, cy, s=14):
+        return f'<g stroke="{VERDE_ENERGIA}" stroke-width="2"><line x1="{cx-s}" y1="{cy}" x2="{cx+s}" y2="{cy}"/><line x1="{cx}" y1="{cy-s}" x2="{cx}" y2="{cy+s}"/></g>'
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="{VERDE_GENSTONE}"/>
+  {_corners(VERDE_ENERGIA)}
+  {_eyebrow(eb, VERDE_ENERGIA, y=140)}
+
+  {cross(140, 600)}
+  {cross(W-140, 600)}
+  {cross(140, 820)}
+  {cross(W-140, 820)}
+
+  <text x="{W/2}" y="780" font-family="{HAAS}" font-weight="500"
+        font-size="260" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="6"
+        text-anchor="middle" letter-spacing="-0.04em">{stat}</text>
+
+  {sub_svg}
+</svg>'''
+    write(filename, svg)
+
+
 def write(name, svg):
     (POSTS / f"{name}.svg").write_text(svg)
 
@@ -881,87 +1149,79 @@ def build_all():
 
     faq_outro("faq_07_outro")
 
-    # ─── Carrusel ATS: Transferencia automática ───
+    # ─── Carrusel ATS: Transferencia automática (v2) ───
     EB1 = "TRANSFERENCIA AUTOMÁTICA"
-    TOTAL1 = 6
+    T1 = 6
 
-    carousel_cover("ats_00_cover", EB1,
+    cover_v2("ats_00_cover", EB1,
         "¿Cómo", "funciona?",
         ["La transferencia automática que mantiene",
          "tu energía sin que tengas que tocar nada."])
 
-    content_slide("ats_01_tecnologia", EB1,
-        ["La tecnología", "que lo hace posible."],
-        ["ATS — Automatic Transfer Switch.",
-         "",
-         "El cerebro que conecta tu casa con Genstone",
-         "en el momento exacto en que la red falla."],
-        idx=1, total=TOTAL1)
+    hero_statement("ats_01_tecnologia", EB1, f"01 / {T1}",
+        ["ATS.", "El cerebro", "del sistema."],
+        accent_idx=0, bg="dark", indicator=None)
 
-    steps_slide("ats_02_proceso", EB1,
+    numbered_v2("ats_02_proceso", EB1,
         "Así funciona.",
-        ["Monitorea constantemente la red eléctrica.",
-         "Detecta caída de tensión en milisegundos.",
+        ["Monitorea la red eléctrica.",
+         "Detecta caída en milisegundos.",
          "Ordena al motor arrancar.",
          "Cambia a alimentación Genstone.",
-         "Tu casa nunca se queda sin energía."],
-        idx=2, total=TOTAL1)
+         "Tu casa no se queda sin energía."],
+        indicator=f"02 / {T1}", bg="dark")
 
-    big_stat_slide("ats_03_velocidad", EB1,
+    stat_hero("ats_03_velocidad", EB1,
         "0.0001s",
         ["Más rápido que parpadear.",
          "Más rápido de lo que tu casa se da cuenta."],
-        idx=3, total=TOTAL1)
+        indicator=f"03 / {T1}")
 
-    bullets_slide("ats_04_seguridad", EB1,
+    stripes_slide("ats_04_seguridad", EB1,
         "Seguridad total.",
-        [("Sin cortocircuitos", "Aislación garantizada"),
-         ("Sin daños", "No afecta tus aparatos"),
-         ("Sin interrupciones", "Transferencia invisible")],
-        idx=4, total=TOTAL1)
+        [("Sin cortocircuitos", "Aislación garantizada."),
+         ("Sin daños", "No afecta tus aparatos."),
+         ("Sin interrupciones", "Transferencia invisible.")],
+        indicator=f"04 / {T1}")
 
-    carousel_outro("ats_05_cierre", EB1,
+    outro_v2("ats_05_cierre", EB1,
         "Vos ni", "te enterás.",
         ["Mientras el barrio se queda a oscuras,",
          "tu casa sigue funcionando como siempre."],
-        cta="Conocé Genstone en genstone.com.ar →")
+        cta="genstone.com.ar →")
 
-    # ─── Carrusel Respaldo: Promesa + Evidencia ───
+    # ─── Carrusel Respaldo: Promesa + Evidencia (v2) ───
     EB2 = "RESPALDO QUE NO FALLA"
-    TOTAL2 = 6
+    T2 = 6
 
-    carousel_cover("res_00_cover", EB2,
+    cover_v2("res_00_cover", EB2,
         "Respaldo", "estable.",
         ["Respaldo eficiente que mantiene",
          "todo en marcha."])
 
-    content_slide("res_01_escenarios", EB2,
-        ["Incluso en", "los escenarios", "más exigentes."],
-        ["Cortes largos, picos de consumo,",
-         "demanda continua. Genstone responde."],
-        idx=1, total=TOTAL2)
+    hero_statement("res_01_escenarios", EB2, f"01 / {T2}",
+        ["Incluso", "en los", "escenarios", "más exigentes."],
+        accent_idx=3, bg="energy")
 
-    bullets_slide("res_02_cortes", EB2,
+    stripes_slide("res_02_cortes", EB2,
         "Lo que significa.",
         [("Corte de 1 hora", "Tu casa funciona normalmente."),
          ("Corte de 8 horas", "Tu vida no se detiene."),
          ("Corte de 2 días", "Seguís igual que siempre.")],
-        idx=2, total=TOTAL2)
+        indicator=f"02 / {T2}")
 
-    bullets_slide("res_03_como", EB2,
+    stripes_slide("res_03_como", EB2,
         "Cómo lo hace.",
-        [("Automático", "Arranca solo, sin que toques nada."),
-         ("Eficiente", "Consume inteligentemente."),
-         ("Estable", "Energía limpia y consistente.")],
-        idx=3, total=TOTAL2)
+        [("Automático", "Arranca solo."),
+         ("Eficiente", "Consume inteligente."),
+         ("Estable", "Energía limpia y constante.")],
+        indicator=f"03 / {T2}")
 
-    content_slide("res_04_conclusion", EB2,
-        ["No es", "un plan B."],
-        ["Es tu plan A para vivir",
-         "sin preocuparte por la red."],
-        idx=4, total=TOTAL2)
+    hero_statement("res_04_conclusion", EB2, f"04 / {T2}",
+        ["No es", "un plan B.", "Es tu plan A."],
+        accent_idx=2, bg="dark")
 
-    carousel_outro("res_05_cierre", EB2,
+    outro_v2("res_05_cierre", EB2,
         "Lo que", "necesitás,",
         ["sigue en marcha.",
          "Cualquier día, cualquier hora, cualquier corte."],

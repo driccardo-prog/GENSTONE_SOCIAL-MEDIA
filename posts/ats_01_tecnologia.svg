@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
-  <rect width="1080" height="1350" fill="#FFFFFF"/>
-  <text x="540.0" y="180" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
-        font-size="24" fill="#68D38E" text-anchor="middle"
-        letter-spacing="0.22em">TRANSFERENCIA AUTOMÁTICA — 01 / 06</text>
+  <rect width="1080" height="1350" fill="#173B2E"/>
   
-        <text x="540.0" y="380" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
-              font-size="92" fill="#173B2E" text-anchor="middle"
-              letter-spacing="-0.02em">La tecnología</text>
-        <text x="540.0" y="490" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
-              font-size="92" fill="#173B2E" text-anchor="middle"
-              letter-spacing="-0.02em">que lo hace posible.</text>
+    <g stroke="#68D38E" stroke-width="2" fill="none">
+      <polyline points="60,92 60,60 92,60"/>
+      <polyline points="988,60 1020,60 1020,92"/>
+      <polyline points="60,1258 60,1290 92,1290"/>
+      <polyline points="988,1290 1020,1290 1020,1258"/>
+    </g>
   
-        <text x="540.0" y="680" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
-              font-size="36" fill="#282B2A" text-anchor="middle"
-              letter-spacing="0">ATS — Automatic Transfer Switch.</text>
-        <text x="540.0" y="734" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
-              font-size="36" fill="#282B2A" text-anchor="middle"
-              letter-spacing="0"></text>
-        <text x="540.0" y="788" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
-              font-size="36" fill="#282B2A" text-anchor="middle"
-              letter-spacing="0">El cerebro que conecta tu casa con Genstone</text>
-        <text x="540.0" y="842" font-family="Neue Haas Grotesk Display Pro" font-weight="300"
-              font-size="36" fill="#282B2A" text-anchor="middle"
-              letter-spacing="0">en el momento exacto en que la red falla.</text>
+    <text x="540.0" y="140" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+          font-size="22" fill="#68D38E" text-anchor="middle"
+          letter-spacing="0.22em">TRANSFERENCIA AUTOMÁTICA</text>
+  
+        <text x="540.0" y="590.5" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="130" fill="#68D38E" stroke="#68D38E" stroke-width="4"
+              text-anchor="middle" letter-spacing="-0.03em">ATS.</text>
+        <text x="540.0" y="720.5" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="130" fill="#EFEFEF" stroke="#EFEFEF" stroke-width="4"
+              text-anchor="middle" letter-spacing="-0.03em">El cerebro</text>
+        <text x="540.0" y="850.5" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+              font-size="130" fill="#EFEFEF" stroke="#EFEFEF" stroke-width="4"
+              text-anchor="middle" letter-spacing="-0.03em">del sistema.</text>
+  
+    <text x="540.0" y="1250" font-family="Neue Haas Grotesk Display Pro" font-weight="500"
+          font-size="22" fill="#68D38E" text-anchor="middle"
+          letter-spacing="0.22em">01 / 6</text>
 </svg>
