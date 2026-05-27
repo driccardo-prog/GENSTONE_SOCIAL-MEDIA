@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="1080" height="780" fill="#EFEFEF"/>
+
+  <!-- Plus signo -->
+  <g stroke="#68D38E" stroke-width="22" stroke-linecap="square">
+    <line x1="430.0" y1="390.0" x2="650.0" y2="390.0"/>
+    <line x1="540.0" y1="280.0" x2="540.0" y2="500.0"/>
+  </g>
+
+  <text x="70" y="840" font-family="Inter" font-weight="500"
+        font-size="26" fill="#282B2A" letter-spacing="0.18em">CONSULTANOS</text>
+
+  
+        <text x="70" y="920" font-family="Inter" font-weight="500"
+              font-size="58" fill="#173B2E" letter-spacing="-0.025em">¿Necesitás un generador</text>
+        <text x="70" y="990" font-family="Inter" font-weight="500"
+              font-size="58" fill="#173B2E" letter-spacing="-0.025em">más grande?</text>
+  
+        <text x="70" y="1070" font-family="Inter" font-weight="400"
+              font-size="30" fill="#282B2A" letter-spacing="-0.025em">Para potencias mayores consultanos por más</text>
+        <text x="70" y="1114" font-family="Inter" font-weight="400"
+              font-size="30" fill="#282B2A" letter-spacing="-0.025em">modelos disponibles.</text>
+
+  <text x="70" y="1280" font-family="Inter" font-weight="500"
+        font-size="32" fill="#68D38E" letter-spacing="-0.025em">Hablar por WhatsApp →</text>
+</svg>

@@ -294,6 +294,99 @@ def product_sheet(filename, photo, modelo, funcion, specs):
     write(filename, svg)
 
 
+# ─────────────────────────────────────────────────────────────────────
+# Template F — Card de producto estilo web (foto + chips)
+# ─────────────────────────────────────────────────────────────────────
+def web_card(filename, photo, modelo, descripcion, chips):
+    """ Replica del card de genstone.com.ar/productos.
+        chips: list of (label, value) — 3 chips. """
+    img = FOTOS / photo
+    b64 = base64.b64encode(img.read_bytes()).decode()
+    img_uri = f"data:image/jpeg;base64,{b64}"
+
+    PHOTO_H = 780
+    PAD = 70
+
+    # Descripción wrap manual (2 líneas máx, ya viene corta)
+    desc_svg = ""
+    for i, ln in enumerate(descripcion):
+        desc_svg += f'''
+        <text x="{PAD}" y="{PHOTO_H + 200 + i*44}" font-family="{FONT}" font-weight="400"
+              font-size="30" fill="{GRIS_MINERAL}" letter-spacing="{TRACKING}">{ln}</text>'''
+
+    # 3 chips horizontales
+    chips_y = PHOTO_H + 320
+    chip_h = 120
+    gap = 16
+    chip_w = (W - 2*PAD - 2*gap) / 3
+    chips_svg = ""
+    for i, (k, v) in enumerate(chips):
+        x = PAD + i*(chip_w + gap)
+        chips_svg += f'''
+        <rect x="{x}" y="{chips_y}" width="{chip_w}" height="{chip_h}" rx="10"
+              fill="none" stroke="{GRIS_CLARO}" stroke-width="1.5"/>
+        <text x="{x + chip_w/2}" y="{chips_y + 40}" font-family="{FONT}" font-weight="300"
+              font-size="20" fill="{GRIS_MINERAL}" text-anchor="middle"
+              letter-spacing="0.1em">{k.upper()}</text>
+        <text x="{x + chip_w/2}" y="{chips_y + 86}" font-family="{FONT}" font-weight="500"
+              font-size="34" fill="{VERDE_GENSTONE}" text-anchor="middle"
+              letter-spacing="{TRACKING}">{v}</text>'''
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="{W}" height="{PHOTO_H}" fill="{BLANCO}"/>
+  <image href="{img_uri}" x="0" y="0" width="{W}" height="{PHOTO_H}" preserveAspectRatio="xMidYMid slice"/>
+
+  <text x="{PAD}" y="{PHOTO_H + 130}" font-family="{FONT}" font-weight="500"
+        font-size="100" fill="{VERDE_GENSTONE}" letter-spacing="{TRACKING}">{modelo}</text>
+
+  {desc_svg}
+  {chips_svg}
+</svg>'''
+    write(filename, svg)
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Template G — Consultanos (card "+ otro modelo")
+# ─────────────────────────────────────────────────────────────────────
+def consult_card(filename, eyebrow, title, descripcion, cta):
+    PHOTO_H = 780
+    PAD = 70
+    desc_svg = ""
+    for i, ln in enumerate(descripcion):
+        desc_svg += f'''
+        <text x="{PAD}" y="{PHOTO_H + 290 + i*44}" font-family="{FONT}" font-weight="400"
+              font-size="30" fill="{GRIS_MINERAL}" letter-spacing="{TRACKING}">{ln}</text>'''
+    title_svg = ""
+    for i, ln in enumerate(title):
+        title_svg += f'''
+        <text x="{PAD}" y="{PHOTO_H + 140 + i*70}" font-family="{FONT}" font-weight="500"
+              font-size="58" fill="{VERDE_GENSTONE}" letter-spacing="{TRACKING}">{ln}</text>'''
+
+    svg = f'''<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
+  <rect width="{W}" height="{H}" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="{W}" height="{PHOTO_H}" fill="{BLANCO}"/>
+
+  <!-- Plus signo -->
+  <g stroke="{VERDE_ENERGIA}" stroke-width="22" stroke-linecap="square">
+    <line x1="{W/2-110}" y1="{PHOTO_H/2}" x2="{W/2+110}" y2="{PHOTO_H/2}"/>
+    <line x1="{W/2}" y1="{PHOTO_H/2-110}" x2="{W/2}" y2="{PHOTO_H/2+110}"/>
+  </g>
+
+  <text x="{PAD}" y="{PHOTO_H + 60}" font-family="{FONT}" font-weight="500"
+        font-size="26" fill="{GRIS_MINERAL}" letter-spacing="0.18em">{eyebrow.upper()}</text>
+
+  {title_svg}
+  {desc_svg}
+
+  <text x="{PAD}" y="{H - 70}" font-family="{FONT}" font-weight="500"
+        font-size="32" fill="{VERDE_ENERGIA}" letter-spacing="{TRACKING}">{cta} →</text>
+</svg>'''
+    write(filename, svg)
+
+
 def write(name, svg):
     (POSTS / f"{name}.svg").write_text(svg)
 
@@ -354,6 +447,37 @@ def build_all():
         ["Genstone no", "duerme.",  "Tu energía", "tampoco."],
         eyebrow_txt="MONITOREO 24/7",
         text_color=GRIS_MINERAL, dark_overlay=0.0, size=72)
+
+    # ─── Cards estilo web (genstone.com.ar/productos) ───
+    web_card("web_01_gs12", "genstone-02.jpg", "GS12",
+        ["Departamentos y casas chicas. Respalda heladera,",
+         "luces, WiFi, TV y un aire acondicionado."],
+        [("GLP", "11 kW"), ("GAS NATURAL", "10 kW"), ("FASE", "Monofásico")])
+
+    web_card("web_02_gs15", "genstone-02.jpg", "GS15",
+        ["Casas de 3-4 ambientes. Aires, microondas,",
+         "lavarropas. Respaldo total ante cortes."],
+        [("GLP", "15 kW"), ("GAS NATURAL", "14 kW"), ("FASE", "Monofásico")])
+
+    web_card("web_03_gs17", "genstone-02.jpg", "GS17",
+        ["Casas grandes. Toda la casa funcionando sin",
+         "restricciones, incluso en cortes largos."],
+        [("GLP", "17 kW"), ("GAS NATURAL", "15 kW"), ("FASE", "Monofásico")])
+
+    web_card("web_04_gs18", "genstone-02.jpg", "GS18",
+        ["Residencia grande / consumo alto."],
+        [("GLP", "18 kW"), ("GAS NATURAL", "16 kW"), ("FASE", "Monofásico")])
+
+    web_card("web_05_gs20", "genstone-02.jpg", "GS20",
+        ["Casa grande con quincho/pileta o comercio chico."],
+        [("GLP", "20 kW"), ("GAS NATURAL", "18 kW"), ("FASE", "Monofásico")])
+
+    consult_card("web_06_consultanos",
+        "Consultanos",
+        ["¿Necesitás un generador", "más grande?"],
+        ["Para potencias mayores consultanos por más",
+         "modelos disponibles."],
+        "Hablar por WhatsApp")
 
     # 11 — Ficha resumida GS12 (foto + info)
     product_sheet("11_ficha_gs12", "genstone-01.jpg", "GS12",
