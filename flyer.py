@@ -211,16 +211,16 @@ def build_flyer():
   <rect x="0" y="0" width="{W}" height="380" fill="{VERDE_GENSTONE}"/>
   {_corners_top(VERDE_ENERGIA)}
 
-  <!-- Logo GENSTONE -->
-  {logo_genstone(W/2, 140, scale=1.15)}
-
-  <text x="{W/2}" y="220" font-family="{HAAS}" font-weight="500"
+  <text x="{W/2}" y="150" font-family="{HAAS}" font-weight="500"
         font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
         letter-spacing="0.22em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
 
-  <text x="{W/2}" y="300" font-family="{HAAS}" font-weight="500"
-        font-size="70" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="2"
-        text-anchor="middle" letter-spacing="-0.025em">Lo esencial, bien hecho.</text>
+  <text x="{W/2}" y="260" font-family="{HAAS}" font-weight="500"
+        font-size="80" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="3"
+        text-anchor="middle" letter-spacing="-0.025em">Lo esencial,</text>
+  <text x="{W/2}" y="350" font-family="{HAAS}" font-weight="500"
+        font-size="80" fill="{VERDE_ENERGIA}" stroke="{VERDE_ENERGIA}" stroke-width="3"
+        text-anchor="middle" letter-spacing="-0.025em">bien hecho.</text>
 
   <!-- ═══ QUIENES SOMOS ═══════════════════════════════════════ -->
   <text x="{W/2}" y="510" font-family="{HAAS}" font-weight="500"
