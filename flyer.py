@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Flyer WhatsApp 1080x1920 — Linea GS (GS12 / GS15 / GS17)
-Foto + modelo + descripcion + chips + precio en cada card.
+Flyer WhatsApp 1080x2400 — version scrolleable.
+Header + Quienes somos (con iconos) + Lista de precios + Footer.
 """
 import subprocess, base64
 from pathlib import Path
@@ -11,7 +11,7 @@ FOTOS = ROOT / "assets" / "fotos"
 OUT = ROOT / "output"
 POSTS = ROOT / "posts"
 
-W, H = 1080, 1920
+W, H = 1080, 2800
 
 VERDE_ENERGIA  = "#68D38E"
 VERDE_GENSTONE = "#173B2E"
@@ -20,30 +20,78 @@ GRIS_CLARO     = "#B6B6B6"
 BLANCO         = "#EFEFEF"
 
 HAAS = "Neue Haas Grotesk Display Pro"
-FALLBACK = "Inter"
+
 
 def img_data(path: Path) -> str:
     b64 = base64.b64encode(path.read_bytes()).decode()
     return f"data:image/jpeg;base64,{b64}"
 
 
+# ─── Iconos SVG, 80x80, en verde energía ────────────────────────────
+def icon_pin(cx, cy):
+    """Pin de ubicacion."""
+    x, y = cx - 40, cy - 40
+    return f'''<g transform="translate({x},{y})" stroke="{VERDE_ENERGIA}" stroke-width="4"
+        fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 40 8 C 24 8 12 20 12 36 C 12 56 40 74 40 74 C 40 74 68 56 68 36 C 68 20 56 8 40 8 Z"/>
+      <circle cx="40" cy="34" r="8"/>
+    </g>'''
+
+
+def icon_shield(cx, cy):
+    """Escudo con check."""
+    x, y = cx - 40, cy - 40
+    return f'''<g transform="translate({x},{y})" stroke="{VERDE_ENERGIA}" stroke-width="4"
+        fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M 40 8 L 68 18 L 68 38 C 68 54 40 72 40 72 C 40 72 12 54 12 38 L 12 18 Z"/>
+      <polyline points="26,40 36,50 54,30"/>
+    </g>'''
+
+
+def icon_truck(cx, cy):
+    """Camion delivery."""
+    x, y = cx - 40, cy - 40
+    return f'''<g transform="translate({x},{y})" stroke="{VERDE_ENERGIA}" stroke-width="4"
+        fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="26" width="38" height="26" rx="2"/>
+      <path d="M 44 32 L 56 32 L 70 44 L 70 52 L 44 52 Z"/>
+      <circle cx="20" cy="58" r="6"/>
+      <circle cx="56" cy="58" r="6"/>
+    </g>'''
+
+
+def icon_tile(cx, y, icon_fn, title, sub_lines):
+    """Tile con icono arriba + titulo + subtitulo."""
+    icon = icon_fn(cx, y + 50)
+    title_svg = f'''<text x="{cx}" y="{y + 175}" font-family="{HAAS}" font-weight="500"
+        font-size="28" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.015em">{title}</text>'''
+    sub_svg = ""
+    for i, ln in enumerate(sub_lines):
+        sub_svg += f'''
+        <text x="{cx}" y="{y + 215 + i*32}" font-family="{HAAS}" font-weight="300"
+              font-size="22" fill="{GRIS_MINERAL}" text-anchor="middle"
+              letter-spacing="0">{ln}</text>'''
+    return icon + title_svg + sub_svg
+
+
 def product_card(y, modelo, descripcion, chips, precio):
-    """Una card 1080 x 480: foto izquierda + info derecha + precio."""
+    """Card 1080 x 420: foto + info + precio."""
     foto = img_data(FOTOS / "genstone-02.jpg")
 
-    PHOTO_X, PHOTO_W, PHOTO_H = 50, 380, 380
-    INFO_X = PHOTO_X + PHOTO_W + 40   # 470
-    INFO_RIGHT = W - 50               # 1030
+    PHOTO_X, PHOTO_W, PHOTO_H = 60, 340, 340
+    INFO_X = PHOTO_X + PHOTO_W + 50   # 470
+    INFO_RIGHT = W - 60
 
     desc = ""
     for i, ln in enumerate(descripcion):
         desc += f'''
-        <text x="{INFO_X}" y="{y + 180 + i*38}" font-family="{HAAS}" font-weight="300"
+        <text x="{INFO_X}" y="{y + 170 + i*38}" font-family="{HAAS}" font-weight="300"
               font-size="24" fill="{GRIS_MINERAL}" letter-spacing="0">{ln}</text>'''
 
     chips_svg = ""
-    chip_y = y + 270
-    chip_h = 76
+    chip_y = y + 250
+    chip_h = 70
     gap = 10
     chip_w = (INFO_RIGHT - INFO_X - 2*gap) / 3
     for i, (k, v) in enumerate(chips):
@@ -51,39 +99,69 @@ def product_card(y, modelo, descripcion, chips, precio):
         chips_svg += f'''
         <rect x="{cx}" y="{chip_y}" width="{chip_w}" height="{chip_h}" rx="8"
               fill="none" stroke="{GRIS_CLARO}" stroke-width="1.5"/>
-        <text x="{cx + chip_w/2}" y="{chip_y + 28}" font-family="{HAAS}" font-weight="300"
-              font-size="15" fill="{GRIS_MINERAL}" text-anchor="middle"
+        <text x="{cx + chip_w/2}" y="{chip_y + 26}" font-family="{HAAS}" font-weight="300"
+              font-size="14" fill="{GRIS_MINERAL}" text-anchor="middle"
               letter-spacing="0.12em">{k.upper()}</text>
-        <text x="{cx + chip_w/2}" y="{chip_y + 58}" font-family="{HAAS}" font-weight="500"
+        <text x="{cx + chip_w/2}" y="{chip_y + 54}" font-family="{HAAS}" font-weight="500"
               font-size="22" fill="{VERDE_GENSTONE}" text-anchor="middle"
               letter-spacing="-0.02em">{v}</text>'''
 
-    precio_y = y + 410
     return f'''
-    <rect x="{PHOTO_X}" y="{y + 20}" width="{PHOTO_W}" height="{PHOTO_H}" fill="{BLANCO}" rx="12"/>
     <image href="{foto}" x="{PHOTO_X}" y="{y + 20}" width="{PHOTO_W}" height="{PHOTO_H}"
-           preserveAspectRatio="xMidYMid slice" clip-path="inset(0 round 12px)"/>
-    <text x="{INFO_X}" y="{y + 115}" font-family="{HAAS}" font-weight="500"
-          font-size="92" fill="{VERDE_GENSTONE}" letter-spacing="-0.025em">{modelo}</text>
+           preserveAspectRatio="xMidYMid slice"/>
+    <text x="{INFO_X}" y="{y + 110}" font-family="{HAAS}" font-weight="500"
+          font-size="100" fill="{VERDE_GENSTONE}" letter-spacing="-0.025em">{modelo}</text>
     {desc}
     {chips_svg}
-    <text x="{INFO_X}" y="{precio_y}" font-family="{HAAS}" font-weight="500"
-          font-size="18" fill="{GRIS_MINERAL}" letter-spacing="0.2em">PRECIO</text>
-    <text x="{INFO_RIGHT}" y="{precio_y}" font-family="{HAAS}" font-weight="500"
-          font-size="44" fill="{VERDE_GENSTONE}" text-anchor="end"
+    <!-- precio destacado -->
+    <rect x="{INFO_X}" y="{y + 350}" width="{INFO_RIGHT - INFO_X}" height="60"
+          fill="{VERDE_GENSTONE}" rx="8"/>
+    <text x="{INFO_X + 24}" y="{y + 390}" font-family="{HAAS}" font-weight="500"
+          font-size="18" fill="{VERDE_ENERGIA}" letter-spacing="0.2em">PRECIO</text>
+    <text x="{INFO_RIGHT - 24}" y="{y + 392}" font-family="{HAAS}" font-weight="500"
+          font-size="36" fill="{BLANCO}" text-anchor="end"
           letter-spacing="-0.02em">{precio}</text>
-    <line x1="50" y1="{y + 460}" x2="{W-50}" y2="{y + 460}"
-          stroke="{VERDE_ENERGIA}" stroke-opacity="0.35" stroke-width="1"/>
     '''
 
 
+def _corners_top(color, inset=40, size=28, thick=2):
+    """Solo brackets superiores (header dark green)."""
+    return f'''
+    <g stroke="{color}" stroke-width="{thick}" fill="none">
+      <polyline points="{inset},{inset+size} {inset},{inset} {inset+size},{inset}"/>
+      <polyline points="{W-inset-size},{inset} {W-inset},{inset} {W-inset},{inset+size}"/>
+    </g>'''
+
+
+def _corners_bottom(color, y_bottom, inset=40, size=28, thick=2):
+    """Brackets inferiores en y_bottom (footer dark green)."""
+    return f'''
+    <g stroke="{color}" stroke-width="{thick}" fill="none">
+      <polyline points="{inset},{y_bottom-size} {inset},{y_bottom} {inset+size},{y_bottom}"/>
+      <polyline points="{W-inset-size},{y_bottom} {W-inset},{y_bottom} {W-inset},{y_bottom-size}"/>
+    </g>'''
+
+
 def build_flyer():
-    HEADER_H = 230
-    INTRO_H = 200
-    cards = ""
+    # ─── Quiénes somos: 3 tiles (icon + título + subtitle) ───────
+    tile_y = 800
+    tiles = (
+        icon_tile(W * 0.18, tile_y, icon_pin,
+                  "Hecho en Argentina",
+                  ["Depósito en Parque", "Industrial DT4."])
+        + icon_tile(W * 0.50, tile_y, icon_shield,
+                    "Garantía 1 año",
+                    ["Respaldo de fábrica", "+ posventa."])
+        + icon_tile(W * 0.82, tile_y, icon_truck,
+                    "Logística nacional",
+                    ["Llegamos a todo", "el país."])
+    )
+
+    # ─── Lista de precios: 3 cards ───────────────────────────────
+    cards_y_start = 1340
     products = [
         ("GS12", ["Departamentos y casas chicas.",
-                  "Respalda heladera, luces, WiFi, TV y un AC."],
+                  "Heladera, luces, WiFi, TV y un AC."],
          [("GLP", "11 kW"), ("GAS NATURAL", "10 kW"), ("FASE", "Monofásico")],
          "USD 5.500"),
         ("GS15", ["Casas de 3-4 ambientes. Aires,",
@@ -95,59 +173,81 @@ def build_flyer():
          [("GLP", "17 kW"), ("GAS NATURAL", "15 kW"), ("FASE", "Monofásico")],
          "USD 9.800"),
     ]
+    cards = ""
     for i, (modelo, desc, chips, precio) in enumerate(products):
-        y = HEADER_H + INTRO_H + i * 450
-        cards += product_card(y, modelo, desc, chips, precio)
+        cards += product_card(cards_y_start + i * 420, modelo, desc, chips, precio)
 
-    footer_y = HEADER_H + INTRO_H + 3 * 450 + 30
+    footer_y = cards_y_start + 3 * 420 + 40
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
   <rect width="{W}" height="{H}" fill="#FFFFFF"/>
 
-  <!-- Header -->
+  <!-- ═══ HEADER ════════════════════════════════════════════════ -->
+  <rect x="0" y="0" width="{W}" height="380" fill="{VERDE_GENSTONE}"/>
+  {_corners_top(VERDE_ENERGIA)}
+
   <!-- Logo chip GENSTONE -->
-  <g transform="translate({W/2 - 110}, 70)">
-    <rect x="0" y="0" width="220" height="56" rx="6" fill="{VERDE_ENERGIA}"/>
-    <text x="110" y="38" font-family="{HAAS}" font-weight="500" font-size="28"
+  <g transform="translate({W/2 - 130}, 90)">
+    <rect x="0" y="0" width="260" height="68" rx="6" fill="{VERDE_ENERGIA}"/>
+    <text x="130" y="46" font-family="{HAAS}" font-weight="500" font-size="34"
           fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
   </g>
 
-  <text x="{W/2}" y="170" font-family="{HAAS}" font-weight="500"
-        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
-        letter-spacing="0.22em">&lt; NUESTROS PRODUCTOS &gt;</text>
-
-  <text x="{W/2}" y="225" font-family="{HAAS}" font-weight="500"
-        font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">Línea GS — Lista de precios</text>
-
-  <!-- Intro: quienes somos / donde estamos -->
-  <text x="{W/2}" y="300" font-family="{HAAS}" font-weight="500"
-        font-size="20" fill="{VERDE_ENERGIA}" text-anchor="middle"
-        letter-spacing="0.22em">SOBRE GENSTONE</text>
-  <text x="{W/2}" y="350" font-family="{HAAS}" font-weight="500"
-        font-size="34" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">Empresa argentina de respaldo energético</text>
-  <text x="{W/2}" y="392" font-family="{HAAS}" font-weight="500"
-        font-size="34" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">premium-accesible para el hogar.</text>
-  <text x="{W/2}" y="438" font-family="{HAAS}" font-weight="300"
-        font-size="24" fill="{GRIS_MINERAL}" text-anchor="middle"
-        letter-spacing="0">Depósito propio en Parque Industrial DT4 · llegamos a todo el país.</text>
-
-  <!-- Cards -->
-  {cards}
-
-  <!-- Footer -->
-  <text x="{W/2}" y="{footer_y}" font-family="{HAAS}" font-weight="500"
+  <text x="{W/2}" y="220" font-family="{HAAS}" font-weight="500"
         font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
         letter-spacing="0.22em">&lt; ENERGÍA QUE NO FALLA &gt;</text>
-  <text x="{W/2}" y="{footer_y + 50}" font-family="{HAAS}" font-weight="300"
-        font-size="24" fill="{GRIS_MINERAL}" text-anchor="middle"
-        letter-spacing="0">Garantía de fábrica 1 año + posventa  ·  genstone.com.ar</text>
-    '''
-    # Cerrar SVG
-    svg += "\n</svg>\n"
+
+  <text x="{W/2}" y="300" font-family="{HAAS}" font-weight="500"
+        font-size="70" fill="{BLANCO}" stroke="{BLANCO}" stroke-width="2"
+        text-anchor="middle" letter-spacing="-0.025em">Lo esencial, bien hecho.</text>
+
+  <!-- ═══ QUIENES SOMOS ═══════════════════════════════════════ -->
+  <text x="{W/2}" y="510" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">&lt; SOBRE GENSTONE &gt;</text>
+
+  <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
+        font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.025em">Empresa argentina de respaldo</text>
+  <text x="{W/2}" y="648" font-family="{HAAS}" font-weight="500"
+        font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.025em">energético para el hogar.</text>
+
+  <text x="{W/2}" y="720" font-family="{HAAS}" font-weight="300"
+        font-size="26" fill="{GRIS_MINERAL}" text-anchor="middle"
+        letter-spacing="0">Generadores premium-accesibles a gas natural y GLP.</text>
+
+  {tiles}
+
+  <!-- Divider -->
+  <line x1="60" y1="1140" x2="{W-60}" y2="1140" stroke="{VERDE_ENERGIA}" stroke-width="1.5"/>
+
+  <!-- ═══ LISTA DE PRECIOS ═══════════════════════════════════ -->
+  <text x="{W/2}" y="1200" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">&lt; LÍNEA GS &gt;</text>
+
+  <text x="{W/2}" y="1280" font-family="{HAAS}" font-weight="500"
+        font-size="62" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.025em">Lista de precios</text>
+
+  {cards}
+
+  <!-- ═══ FOOTER ═══════════════════════════════════════════ -->
+  <rect x="0" y="{footer_y - 30}" width="{W}" height="{H - (footer_y - 30)}" fill="{VERDE_GENSTONE}"/>
+  {_corners_bottom(VERDE_ENERGIA, H - 40)}
+  <text x="{W/2}" y="{footer_y + 30}" font-family="{HAAS}" font-weight="500"
+        font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">&lt; CONSULTANOS &gt;</text>
+  <text x="{W/2}" y="{footer_y + 90}" font-family="{HAAS}" font-weight="500"
+        font-size="40" fill="{BLANCO}" text-anchor="middle"
+        letter-spacing="-0.02em">genstone.com.ar</text>
+  <text x="{W/2}" y="{footer_y + 138}" font-family="{HAAS}" font-weight="300"
+        font-size="22" fill="{GRIS_CLARO}" text-anchor="middle"
+        letter-spacing="0">Precios sujetos a modificación sin previo aviso.</text>
+</svg>
+'''
     (POSTS / "flyer_lista_precios.svg").write_text(svg)
 
 
@@ -160,7 +260,7 @@ def render():
     subprocess.run(["convert", str(png), "-colorspace", "sRGB",
                     "-quality", "92", "-strip", str(jpg)], check=True)
     png.unlink()
-    print(f"OK  {jpg.name}")
+    print(f"OK  {jpg.name}  ({W}x{H})")
 
 
 if __name__ == "__main__":
