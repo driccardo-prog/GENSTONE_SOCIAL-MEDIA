@@ -53,7 +53,7 @@ def find_gaps(arr, bg, tol=18, min_gap_rows=20):
     return gaps
 
 
-def expand(src: Path, dst: Path):
+def expand(src: Path, dst: Path, top_safe: int = 0):
     img = Image.open(src).convert("RGB")
     w0, h0 = img.size
     new_h = int(h0 * TW / w0)
@@ -62,7 +62,10 @@ def expand(src: Path, dst: Path):
     bg = sample_bg(img)
     bg_hex = "#{:02X}{:02X}{:02X}".format(*bg)
 
-    extra_total = TH - new_h
+    # Altura disponible para el original = TH - top_safe (reservamos area
+    # superior para el avatar/header del feed)
+    avail_h = TH - top_safe
+    extra_total = avail_h - new_h
     if extra_total <= 0:
         img.crop((0, 0, TW, TH)).save(dst, "JPEG", quality=92)
         print(f"OK  {dst.name}  (sin expansion necesaria)")
@@ -73,10 +76,8 @@ def expand(src: Path, dst: Path):
     internal_gaps = [g for g in gaps if g[0] > 5 and g[1] < new_h - 5]
 
     if not internal_gaps:
-        # Sin gaps internos: agregar margenes top/bottom usando filas-edge
-        # del original para evitar costura JPEG
         canvas = Image.new("RGB", (TW, TH), bg)
-        canvas.paste(img, (0, extra_total // 2))
+        canvas.paste(img, (0, top_safe + extra_total // 2))
         canvas.save(dst, "JPEG", quality=92)
         print(f"OK  {dst.name}  (sin gaps internos)")
         return
@@ -94,7 +95,7 @@ def expand(src: Path, dst: Path):
     #   - copia solo bloques de contenido (sin incluir las filas-gap del original)
     #   - cada gap original lo reemplazamos por bg promedio limpio de (gap + extra)
     canvas = Image.new("RGB", (TW, TH), bg)
-    y_canvas = 0
+    y_canvas = top_safe   # arrancamos abajo del area reservada
     y_src = 0
     PAD = 8  # rows extra para preservar descenders (p, g, y, etc.)
     for i, (g0, g1) in enumerate(internal_gaps):
@@ -130,7 +131,10 @@ def main():
     files = [f for f in files if "__MACOSX" not in str(f)]
     for f in sorted(files):
         dst = OUT / f"{slug(f)}.jpg"
-        expand(f, dst)
+        # Piezas de productos: el eyebrow queda muy arriba y el avatar del
+        # perfil lo tapa. Reservamos 180px en la parte superior.
+        top_safe = 180 if "productos-" in slug(f) else 0
+        expand(f, dst, top_safe=top_safe)
 
 
 if __name__ == "__main__":
