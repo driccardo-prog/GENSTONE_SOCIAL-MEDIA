@@ -79,6 +79,7 @@ def product_card(y, modelo, descripcion, chips, precio):
 
 def build_flyer():
     HEADER_H = 230
+    INTRO_H = 200
     cards = ""
     products = [
         ("GS12", ["Departamentos y casas chicas.",
@@ -95,10 +96,10 @@ def build_flyer():
          "USD 9.800"),
     ]
     for i, (modelo, desc, chips, precio) in enumerate(products):
-        y = HEADER_H + i * 480
+        y = HEADER_H + INTRO_H + i * 450
         cards += product_card(y, modelo, desc, chips, precio)
 
-    footer_y = HEADER_H + 3 * 480 + 50
+    footer_y = HEADER_H + INTRO_H + 3 * 450 + 30
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
@@ -119,6 +120,20 @@ def build_flyer():
   <text x="{W/2}" y="225" font-family="{HAAS}" font-weight="500"
         font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
         letter-spacing="-0.025em">Línea GS — Lista de precios</text>
+
+  <!-- Intro: quienes somos / donde estamos -->
+  <text x="{W/2}" y="300" font-family="{HAAS}" font-weight="500"
+        font-size="20" fill="{VERDE_ENERGIA}" text-anchor="middle"
+        letter-spacing="0.22em">SOBRE GENSTONE</text>
+  <text x="{W/2}" y="350" font-family="{HAAS}" font-weight="500"
+        font-size="34" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.025em">Empresa argentina de respaldo energético</text>
+  <text x="{W/2}" y="392" font-family="{HAAS}" font-weight="500"
+        font-size="34" fill="{VERDE_GENSTONE}" text-anchor="middle"
+        letter-spacing="-0.025em">premium-accesible para el hogar.</text>
+  <text x="{W/2}" y="438" font-family="{HAAS}" font-weight="300"
+        font-size="24" fill="{GRIS_MINERAL}" text-anchor="middle"
+        letter-spacing="0">Depósito propio en Parque Industrial DT4 · llegamos a todo el país.</text>
 
   <!-- Cards -->
   {cards}
