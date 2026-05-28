@@ -11,7 +11,7 @@ FOTOS = ROOT / "assets" / "fotos"
 OUT = ROOT / "output"
 POSTS = ROOT / "posts"
 
-W, H = 1080, 2800
+W, H = 1080, 2900
 
 VERDE_ENERGIA  = "#68D38E"
 VERDE_GENSTONE = "#173B2E"
@@ -25,6 +25,30 @@ HAAS = "Neue Haas Grotesk Display Pro"
 def img_data(path: Path) -> str:
     b64 = base64.b64encode(path.read_bytes()).decode()
     return f"data:image/jpeg;base64,{b64}"
+
+
+def logo_genstone(cx, cy, scale=1.0):
+    """Logo GENSTONE: tabletilla verde con bordes superior/inferior ondulados,
+       'GENSTONE' en verde Genstone con peso heavy (stroke + fill)."""
+    w = 360 * scale
+    h = 110 * scale
+    x = cx - w / 2
+    y = cy - h / 2
+    # Curva sutil arriba y abajo (estilo brand wordmark)
+    bulge = 12 * scale
+    path = (f"M {x} {y+bulge} "
+            f"Q {x + w/2} {y - bulge}, {x + w} {y + bulge} "
+            f"L {x + w} {y + h - bulge} "
+            f"Q {x + w/2} {y + h + bulge}, {x} {y + h - bulge} "
+            f"Z")
+    fs = 64 * scale
+    return f'''
+    <path d="{path}" fill="{VERDE_ENERGIA}"/>
+    <text x="{cx}" y="{cy + fs*0.36}" font-family="{HAAS}" font-weight="500"
+          font-size="{fs}" fill="{VERDE_GENSTONE}"
+          stroke="{VERDE_GENSTONE}" stroke-width="3.5"
+          text-anchor="middle" letter-spacing="-0.04em">GENSTONE</text>
+    '''
 
 
 # ─── Iconos SVG, 80x80, en verde energía ────────────────────────────
@@ -177,7 +201,7 @@ def build_flyer():
     for i, (modelo, desc, chips, precio) in enumerate(products):
         cards += product_card(cards_y_start + i * 420, modelo, desc, chips, precio)
 
-    footer_y = cards_y_start + 3 * 420 + 40
+    footer_y = cards_y_start + 3 * 420 + 110
 
     svg = f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">
@@ -187,12 +211,8 @@ def build_flyer():
   <rect x="0" y="0" width="{W}" height="380" fill="{VERDE_GENSTONE}"/>
   {_corners_top(VERDE_ENERGIA)}
 
-  <!-- Logo chip GENSTONE -->
-  <g transform="translate({W/2 - 130}, 90)">
-    <rect x="0" y="0" width="260" height="68" rx="6" fill="{VERDE_ENERGIA}"/>
-    <text x="130" y="46" font-family="{HAAS}" font-weight="500" font-size="34"
-          fill="{VERDE_GENSTONE}" text-anchor="middle" letter-spacing="-0.02em">GENSTONE</text>
-  </g>
+  <!-- Logo GENSTONE -->
+  {logo_genstone(W/2, 140, scale=1.15)}
 
   <text x="{W/2}" y="220" font-family="{HAAS}" font-weight="500"
         font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
@@ -208,11 +228,11 @@ def build_flyer():
         letter-spacing="0.22em">&lt; SOBRE GENSTONE &gt;</text>
 
   <text x="{W/2}" y="600" font-family="{HAAS}" font-weight="500"
-        font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">Empresa argentina de respaldo</text>
-  <text x="{W/2}" y="648" font-family="{HAAS}" font-weight="500"
-        font-size="44" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">energético para el hogar.</text>
+        font-size="48" fill="{VERDE_GENSTONE}" stroke="{VERDE_GENSTONE}" stroke-width="2"
+        text-anchor="middle" letter-spacing="-0.025em">Empresa argentina de respaldo</text>
+  <text x="{W/2}" y="654" font-family="{HAAS}" font-weight="500"
+        font-size="48" fill="{VERDE_GENSTONE}" stroke="{VERDE_GENSTONE}" stroke-width="2"
+        text-anchor="middle" letter-spacing="-0.025em">energético para el hogar.</text>
 
   <text x="{W/2}" y="720" font-family="{HAAS}" font-weight="300"
         font-size="26" fill="{GRIS_MINERAL}" text-anchor="middle"
@@ -229,22 +249,34 @@ def build_flyer():
         letter-spacing="0.22em">&lt; LÍNEA GS &gt;</text>
 
   <text x="{W/2}" y="1280" font-family="{HAAS}" font-weight="500"
-        font-size="62" fill="{VERDE_GENSTONE}" text-anchor="middle"
-        letter-spacing="-0.025em">Lista de precios</text>
+        font-size="68" fill="{VERDE_GENSTONE}" stroke="{VERDE_GENSTONE}" stroke-width="3"
+        text-anchor="middle" letter-spacing="-0.025em">Lista de precios</text>
 
   {cards}
 
   <!-- ═══ FOOTER ═══════════════════════════════════════════ -->
   <rect x="0" y="{footer_y - 30}" width="{W}" height="{H - (footer_y - 30)}" fill="{VERDE_GENSTONE}"/>
   {_corners_bottom(VERDE_ENERGIA, H - 40)}
-  <text x="{W/2}" y="{footer_y + 30}" font-family="{HAAS}" font-weight="500"
+  <text x="{W/2}" y="{footer_y + 40}" font-family="{HAAS}" font-weight="500"
         font-size="22" fill="{VERDE_ENERGIA}" text-anchor="middle"
         letter-spacing="0.22em">&lt; CONSULTANOS &gt;</text>
-  <text x="{W/2}" y="{footer_y + 90}" font-family="{HAAS}" font-weight="500"
-        font-size="40" fill="{BLANCO}" text-anchor="middle"
-        letter-spacing="-0.02em">genstone.com.ar</text>
-  <text x="{W/2}" y="{footer_y + 138}" font-family="{HAAS}" font-weight="300"
-        font-size="22" fill="{GRIS_CLARO}" text-anchor="middle"
+
+  <!-- Web (linkeable) -->
+  <a href="https://genstone.com.ar" target="_blank">
+    <text x="{W/2}" y="{footer_y + 100}" font-family="{HAAS}" font-weight="500"
+          font-size="42" fill="{BLANCO}" text-anchor="middle"
+          letter-spacing="-0.02em">genstone.com.ar</text>
+  </a>
+
+  <!-- Instagram (linkeable) -->
+  <a href="https://instagram.com/genstonegroup" target="_blank">
+    <text x="{W/2}" y="{footer_y + 150}" font-family="{HAAS}" font-weight="500"
+          font-size="30" fill="{VERDE_ENERGIA}" text-anchor="middle"
+          letter-spacing="-0.02em">@genstonegroup</text>
+  </a>
+
+  <text x="{W/2}" y="{footer_y + 185}" font-family="{HAAS}" font-weight="300"
+        font-size="19" fill="{GRIS_CLARO}" text-anchor="middle"
         letter-spacing="0">Precios sujetos a modificación sin previo aviso.</text>
 </svg>
 '''
@@ -258,7 +290,8 @@ def render():
     subprocess.run(["rsvg-convert", "-w", str(W), "-h", str(H),
                     "-o", str(png), str(svg)], check=True)
     subprocess.run(["convert", str(png), "-colorspace", "sRGB",
-                    "-quality", "92", "-strip", str(jpg)], check=True)
+                    "-quality", "96", "-sampling-factor", "1x1",
+                    "-strip", str(jpg)], check=True)
     png.unlink()
     print(f"OK  {jpg.name}  ({W}x{H})")
 
